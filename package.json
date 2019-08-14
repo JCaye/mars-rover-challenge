@@ -1,0 +1,9 @@
+{
+    "name": "mars-rover-challenge",
+    "version": "1.0.0",
+    "description": "",
+    "main": "main.js",
+    "dependencies": {
+        "prompt": "^1.0.0"
+    }
+}
