@@ -5,6 +5,7 @@ class Rover {
         this.facingDirection = facingStart;
         this.instructions = instructions.reverse();
         this.previousInstructions = [];
+        this.isDeployed = false;
     }
 
     calculateNextInstruction() {
@@ -52,14 +53,25 @@ class Rover {
         this.instructions.push(previousMove);
     }
 
+    deploy() {
+        this.commitMove();
+        this.isDeployed = true;
+    }
+
     commitMove() {
         this.xPosition = this.nextX;
         this.yPosition = this.nextY;
     }
 
+    hasConcludedMission() {
+        return this.isDeployed && this.instructions.length === 0;
+    }
+
     toJSON() {
-        let preface = this.instructions.length === 0 ? 'Mission done.' : 'Mission incomplete.';
-        return `${preface} Currently at ${this.xPosition} East, ${this.yPosition} North`;
+        let preface = this.isDeployed
+            ? this.instructions.length === 0 ? 'Mission done.' : 'Mission incomplete.'
+            : 'Failed to deploy.';
+        return `${preface}` + (this.isDeployed ? `Currently at ${this.xPosition} East, ${this.yPosition} North` : '');
     }
 }
 

@@ -1,5 +1,5 @@
-const Terrain = require('./terrain');
-const Rover = require('./rover');
+const Terrain = require('../model/terrain');
+const Rover = require('../model/rover');
 
 class MissionControl {
     constructor(terrain, rovers) {
@@ -33,35 +33,31 @@ class MissionControl {
     launchRover(rover) {
         return new Promise((resolve, reject) => {
             if (!(this.roverIsWithinBounds(rover))) {
-                reject('Rover can\'t be deployed (outside of target area)');
-            }
-
-            rover.commitMove();
-            console.log(rover);
-            while (rover.instructions.length > 0) {
-                rover.calculateNextInstruction();
-
-                if (!this.roverIsWithinBounds(rover)) {
-                    console.log(rover);
-                    rover.rollbackPreviousInstruction();
-                    break;
-                }
-            }
-
-            rover.commitMove();
-            if (rover.instructions.length > 0) {
-                reject('Rover could not finish mission (risked leaving target area)')
+                reject('Rover can\'t be deployed outside of target area');
             } else {
-                resolve();
+                rover.deploy();
+                while (rover.instructions.length > 0) {
+                    rover.calculateNextInstruction();
+    
+                    if (!this.roverIsWithinBounds(rover)) {
+                        rover.rollbackPreviousInstruction();
+                        break;
+                    }
+                }
+    
+                rover.commitMove();
+                if (rover.hasConcludedMission()) {
+                    resolve();
+                } else {
+                    reject('Rover could not finish mission (risked leaving target area)');
+                }
             }
         });
     }
 
     roverIsWithinBounds(rover) {
-        return rover.nextX <= this.terrain.maxX
-            && rover.nextY <= this.terrain.maxY
-            && rover.nextX >= 0
-            && rover.nextY >= 0;
+        return this.terrain.containsCoordinates(rover.nextX, rover.nextY);
+        
     }
 }
 
