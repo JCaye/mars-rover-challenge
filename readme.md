@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/JCaye/mars-rover-challenge/tree/master.svg?style=svg)](https://circleci.com/gh/JCaye/mars-rover-challenge/tree/master)
+[![codecov](https://codecov.io/gh/JCaye/mars-rover-challenge/branch/master/graph/badge.svg)](https://codecov.io/gh/JCaye/mars-rover-challenge)
 # Mars Rovers Challenge
 
 Send and monitor you own rovers into mars!
