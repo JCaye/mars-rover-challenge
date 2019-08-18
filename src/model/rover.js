@@ -2,8 +2,8 @@ class Rover {
     constructor(xStart, yStart, facingStart, instructions) {
         this.nextX = xStart;
         this.nextY = yStart;
-        this.facingDirection = facingStart;
-        this.instructions = instructions.reverse();
+        this.nextOrientation = facingStart;
+        this.instructions = instructions.split('').reverse();
         this.previousInstructions = [];
         this.isDeployed = false;
     }
@@ -12,42 +12,88 @@ class Rover {
         let nextMove = this.instructions.pop();
 
         switch (nextMove) {
-            case 'N':
-                this.nextY += 1;
+            case 'L':
+                this.turnLeft();
                 break;
-            case 'E':
-                this.nextX += 1;
+            case 'R':
+                this.turnRight();
                 break;
-            case 'W':
-                this.nextX -= 1;
-                break;
-            case 'S':
-                this.nextY -= 1;
+            case 'M':
+                this.move(1);
                 break;
             default:
                 throw Error('Can\'t really go there, mate...');
         }
 
-        this.facingDirection = nextMove;
         this.previousInstructions.push(nextMove);
+    }
+
+    turnLeft() {
+        switch (this.nextOrientation) {
+            case 'N':
+                this.nextOrientation = 'W';
+                break;
+            case 'E':
+                this.nextOrientation = 'N';
+                break;
+            case 'W':
+                this.nextOrientation = 'S';
+                break;
+            case 'S':
+                this.nextOrientation = 'E';
+                break;
+        }
+    }
+
+    turnRight() {
+        switch (this.nextOrientation) {
+            case 'N':
+                this.nextOrientation = 'E';
+                break;
+            case 'E':
+                this.nextOrientation = 'S';
+                break;
+            case 'W':
+                this.nextOrientation = 'N';
+                break;
+            case 'S':
+                this.nextOrientation = 'W';
+                break;
+        }
+    }
+
+    move(distance) {
+        switch (this.nextOrientation) {
+            case 'N':
+                this.nextY += distance;
+                break;
+            case 'E':
+                this.nextX += distance;
+                break;
+            case 'W':
+                this.nextX -= distance;
+                break;
+            case 'S':
+                this.nextY -= distance;
+                break;
+        }
     }
 
     rollbackPreviousInstruction() {
         let previousMove = this.previousInstructions.pop();
 
-        switch (previousMove) {
-            case 'N':
-                this.nextY -= 1;
+        switch (nextMove) {
+            case 'L':
+                this.turnRight();
                 break;
-            case 'E':
-                this.nextX -= 1;
+            case 'R':
+                this.turnLeft();
                 break;
-            case 'W':
-                this.nextX += 1;
+            case 'M':
+                this.move(-1);
                 break;
-            case 'S':
-                this.nextY += 1;
-                break;
+            default:
+                throw Error('Can\'t really go there, mate...');
         }
 
         this.instructions.push(previousMove);
@@ -61,10 +107,15 @@ class Rover {
     commitMove() {
         this.xPosition = this.nextX;
         this.yPosition = this.nextY;
+        this.orientation = this.nextOrientation;
     }
 
     hasConcludedMission() {
         return this.isDeployed && this.instructions.length === 0;
+    }
+
+    getCoordinates() {
+        return [this.nextX, this.nextY];
     }
 
     toJSON() {

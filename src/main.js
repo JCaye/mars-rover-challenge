@@ -12,7 +12,7 @@ let input_attributes = [
   },
   {
     name: 'rovers',
-    validator: /^\d+\s\d+(\s[NEWS])+(\s\d+\s\d+(\s[NEWS])+)*$/,
+    validator: /^\d+\s\d+\s[NEWS](\s[LRM]+)?(\s\d+\s\d+\s[NEWS](\s[LRM]+)?)*$/,
     warning: 'For the rovers, enter its starting position and direction (two integers and one of N-E-W-S, separated by spaces), and an optional set of instructions. At least one rover is required; for more, simply add a space and pass in the new instructions'
   }
 ]
@@ -28,9 +28,9 @@ prompt.get(input_attributes, (err, input) => {
   let terrain = new Terrain(...input.boundaries.split(' ').map(each => parseInt(each)));
   console.log(JSON.stringify(terrain));
 
-  let rovers = input.rovers.match(/\d+\s\d+(\s[NEWS])+/g).map(each => {
+  let rovers = input.rovers.match(/\d+\s\d+\s[NEWS](\s[LRM]+)?/g).map(each => {
     let inputs = each.split(' ');
-    return new Rover(parseInt(inputs[0]), parseInt(inputs[1]), inputs[2], inputs.slice(3))
+    return new Rover(parseInt(inputs[0]), parseInt(inputs[1]), inputs[2], inputs[3] || '');
   });
 
   let missionControl = new MissionControl(terrain, rovers);
