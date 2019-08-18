@@ -25,3 +25,8 @@ jobs:
 
       # run tests!
       - run: npm run-script test
+
+      # upload codedcov reports
+      - run:
+          name: codecov bash
+          command: bash <(curl -s https://codecov.io/bash)
