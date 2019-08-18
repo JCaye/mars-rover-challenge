@@ -36,7 +36,7 @@ class MissionControl {
                 reject('Rover can\'t be deployed outside of target area');
             } else {
                 rover.deploy();
-                while (rover.instructions.length > 0) {
+                while (!rover.hasConcludedMission()) {
                     rover.calculateNextInstruction();
     
                     if (!this.roverIsWithinBounds(rover)) {
@@ -56,8 +56,8 @@ class MissionControl {
     }
 
     roverIsWithinBounds(rover) {
-        return this.terrain.containsCoordinates(rover.nextX, rover.nextY);
-        
+        let roverPosition = rover.getCoordinates();
+        return this.terrain.containsCoordinates(...roverPosition);
     }
 }
 
