@@ -4,9 +4,13 @@
     "description": "",
     "main": "main.js",
     "scripts": {
-        "run": "node src/main.js"
+        "run": "node src/main.js",
+        "test": "jest --coverage"
     },
     "dependencies": {
         "prompt": "^1.0.0"
+    },
+    "devDependencies": {
+        "jest": "^24.8.0"
     }
 }

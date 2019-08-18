@@ -82,7 +82,7 @@ class Rover {
     rollbackPreviousInstruction() {
         let previousMove = this.previousInstructions.pop();
 
-        switch (nextMove) {
+        switch (previousMove) {
             case 'L':
                 this.turnRight();
                 break;
@@ -119,10 +119,13 @@ class Rover {
     }
 
     toJSON() {
-        let preface = this.isDeployed
-            ? this.instructions.length === 0 ? 'Mission done.' : 'Mission incomplete.'
-            : 'Failed to deploy.';
-        return `${preface}` + (this.isDeployed ? `Currently at ${this.xPosition} East, ${this.yPosition} North` : '');
+        return !this.isDeployed ?
+            'Failed to deploy.' :
+            `Currently at ${this.xPosition} East, ${this.yPosition} North.` + (
+                this.hasConcludedMission() ?
+                ' Mission done.' :
+                ' Mission incomplete.'
+            );
     }
 }
 
