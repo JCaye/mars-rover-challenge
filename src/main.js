@@ -6,14 +6,16 @@ const Terrain = require('./model/terrain');
 
 let input_attributes = [
   {
+    description: 'Please enter the terrain size. Ex: 20 35',
     name: 'boundaries',
-    validator: /^\d+\s\d+$/,
-    warning: 'For the upper right terrain boundary, please enter two positive integers separated by a single space'
+    pattern: /^\d+\s\d+$/,
+    message: 'For the upper right terrain boundary, please enter two positive integers separated by a single space'
   },
   {
+    description: 'Please enter the rovers starting position and optional instructions. Ex: 1 2 N LMMRM 5 6 E',
     name: 'rovers',
-    validator: /^\d+\s\d+\s[NEWS](\s[LRM]+)?(\s\d+\s\d+\s[NEWS](\s[LRM]+)?)*$/,
-    warning: 'For the rovers, enter its starting position and direction (two integers and one of N-E-W-S, separated by spaces), and an optional set of instructions. At least one rover is required; for more, simply add a space and pass in the new instructions'
+    pattern: /^\d+\s\d+\s[NEWS](\s[LRM]+)?(\s\d+\s\d+\s[NEWS](\s[LRM]+)?)*$/,
+    message: 'For the rovers, enter the starting position and direction (two integers and one of N-E-W-S, separated by spaces), and an optional set of instructions. At least one rover is required; for more, simply add a space and pass in the new instructions'
   }
 ]
 
