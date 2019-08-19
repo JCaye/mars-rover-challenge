@@ -14,7 +14,7 @@ test('Creates proper mission control', () => {
 
 test('Rovers are correctly identified as in and out of bounds', () => {
     let rover = new Rover(26, 34, 'W', 'LRMR');
-    rover.getCoordinates = jest.fn();
+    rover.getCoordinates = jest.fn(() => []);
     
     let conditions = [
         {
@@ -26,7 +26,6 @@ test('Rovers are correctly identified as in and out of bounds', () => {
     ];
 
     conditions.forEach(condition => {
-        rover.getCoordinates = jest.fn(() => []);
         terrain.containsCoordinates = jest.fn(() => condition.inside);
         expect(missionControl.roverIsWithinBounds(rover)).toEqual(condition.inside);
     });
