@@ -30,7 +30,7 @@ class MissionPlan {
             const terrainProperties = {
                 description: 'Enter the terrain size (E-W width first, N-S height second). Ex: 20 35',
                 name: 'boundaries',
-                pattern: /^\d+\s\d+$/,
+                pattern: /^\s*\d+\s+\d+\s*$/,
                 message: 'For the upper right terrain boundary, please enter two positive integers separated by a single space',
                 required: true
             };
@@ -41,14 +41,14 @@ class MissionPlan {
                     reject('Failed to fetch terrain data.');
                 }
 
-                resolve(new Terrain(...input.boundaries.split(' ').map(each => parseInt(each))));
+                resolve(new Terrain(...input.boundaries.trim().split(/\s+/).map(each => parseInt(each))));
             });
         });
     }
 
     createRovers() {
         return new Promise((resolve, reject) => {
-            const roverValidator = /(\d+\s){2}[NEWS](\s[LRM]+)?/g;
+            const roverValidator = /\s*(\d+\s+){2}[NEWS](\s+[LRM]+)?\s*/g;
             const roverProperties = {
                 description: 'Enter the rovers\' starting position and optional instructions. For extra rovers, just add it at the end after a space. Ex: 1 2 N LMMRM 5 6 E',
                 name: 'rovers',
@@ -63,7 +63,7 @@ class MissionPlan {
                     reject('Failed to fetch rover data.');
                 }
                 resolve(input.rovers.match(roverValidator).map(each => {
-                    let inputs = each.split(' ');
+                    let inputs = each.trim().split(/\s+/);
                     return new Rover(parseInt(inputs[0]), parseInt(inputs[1]), inputs[2], inputs[3] || '');
                 }));
             });

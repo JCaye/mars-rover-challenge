@@ -226,6 +226,7 @@ test('Jsonifies correctly when not deployed', () => {
         {
             isDeployed: false,
             instructions: null,
+            orientation: null,
             xPosition: null,
             yPosition: null,
             message: 'Failed to deploy.'
@@ -233,22 +234,49 @@ test('Jsonifies correctly when not deployed', () => {
         {
             isDeployed: true,
             instructions: ['M', 'R', 'M'],
+            orientation: 'W',
             xPosition: 20,
             yPosition: 8,
-            message: 'Currently at 20 East, 8 North. Mission incomplete.'
+            message: 'Currently at 20 East, 8 North, facing West. Mission incomplete.'
         },
         {
             isDeployed: true,
             instructions: [],
+            orientation: 'S',
             xPosition: 15,
             yPosition: 74,
-            message: 'Currently at 15 East, 74 North. Mission done.'
+            message: 'Currently at 15 East, 74 North, facing South. Mission done.'
+        },
+        {
+            isDeployed: true,
+            instructions: [],
+            orientation: 'E',
+            xPosition: 15,
+            yPosition: 74,
+            message: 'Currently at 15 East, 74 North, facing East. Mission done.'
+        },
+        {
+            isDeployed: true,
+            instructions: [],
+            orientation: 'N',
+            xPosition: 15,
+            yPosition: 74,
+            message: 'Currently at 15 East, 74 North, facing North. Mission done.'
+        },
+        {
+            isDeployed: true,
+            instructions: [],
+            orientation: null,
+            xPosition: 15,
+            yPosition: 74,
+            message: 'Currently at 15 East, 74 North, facing Im kinda lost.... Mission done.'
         }
     ];
 
     conditions.forEach(condition => {
         rover.isDeployed = condition.isDeployed;
         rover.instructions = condition.instructions;
+        rover.orientation = condition.orientation;
         rover.xPosition = condition.xPosition;
         rover.yPosition = condition.yPosition;
 

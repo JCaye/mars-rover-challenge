@@ -118,10 +118,25 @@ class Rover {
         return [this.nextX, this.nextY];
     }
 
+    getCardinalOrientationFullName() {
+        switch (this.orientation) {
+            case 'N':
+                return 'North';
+            case 'E':
+                return 'East';
+            case 'W':
+                return 'West';
+            case 'S':
+                return 'South';
+            default:
+                return 'Im kinda lost...';
+        }
+    }
+
     toJSON() {
         return !this.isDeployed ?
             'Failed to deploy.' :
-            `Currently at ${this.xPosition} East, ${this.yPosition} North.` + (
+            `Currently at ${this.xPosition} East, ${this.yPosition} North, facing ${this.getCardinalOrientationFullName()}.` + (
                 this.hasConcludedMission() ?
                 ' Mission done.' :
                 ' Mission incomplete.'
